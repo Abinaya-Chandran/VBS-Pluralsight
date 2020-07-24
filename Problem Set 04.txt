@@ -1,0 +1,256 @@
+1.Define a class named Shape and its subclass Square. The Square class has an init function which takes a length as argument. Both classes have a area function which can print the area of the shape where Shape's area is 0 by default.
+
+class Shape(object):
+    def __init__(self):
+        pass
+
+    def area(self):
+        return 0
+
+class Square(Shape):
+    def __init__(self, l):
+        Shape.__init__(self)
+        self.length = l
+
+    def area(self):
+        return self.length*self.length
+
+aSquare= Square(9)
+print (aSquare.area())
+
+2.Define a class Person and its two child classes: Male and Female. All classes have a method "getGender" which can print "Male" for Male class and "Female" for Female class.
+
+
+class Person(object):
+    def getGender( self ):
+        return "Unknown"
+
+class Male( Person ):
+    def getGender( self ):
+        return "Male"
+
+class Female( Person ):
+    def getGender( self ):
+        return "Female"
+
+Male = Male()
+Female= Female()
+print (Male.getGender())
+print (Female.getGender())
+
+3.Design and implement a Money class that stores monetary values in dollars and cents. Special method init should have the following function header, def init(self, dollars, cents) Include special method repr (str) for displaying values in dollars and cents: $ 0.45, $ 1.00, $ 1.25. Also include special method add, and three getter methods that each provide the monetary value in another currency. Choose any three currencies to convert to.
+
+
+class Money:
+    def __init__(self,dollars=0,cents=0):
+        self.dollars=dollars
+        self.cents=cents
+    def __repr__(self):
+        return self.dollar_cent
+    def __add__(self, other):
+        cent = other.cents / 100
+        self.dollar_cent = self.dollars + cent
+        self.euro = float(self.dollar_cent) * 0.91
+        self.inr = float(self.dollar_cent) * 70.89
+        self.yen = float(self.dollar_cent) * 107.69
+        return self.dollar_cent
+    def getEuro(self):
+        return self.euro
+    def getInr(self):
+        return self.inr
+    def getYen(self):
+        return self.yen
+money1=Money(dollars=25)
+money2=Money(cents=55)
+money3=money1+money2
+print('$'+money3.__repr__())
+print("Dollars to Euro : ",money1.getEuro())
+print("Dollars to Yen : ",money1.getYen())
+print("Dollars to Inr : ",money1.getInr())
+
+
+4.Write both a nonrecursive and recursive function that displays the rows of asterisks given below,
+
+            **
+	   ****
+          ******
+        **********
+       ************
+      **************
+
+def asterix_triangle(i, t=0):
+    if i == 0:
+        return 0
+    else:
+        print (' ' * ( i + 2 ) + '*' * ( t * 2 + 2 ))
+        return asterix_triangle( i - 1, t + 1 )
+
+asterix_triangle(5)
+
+
+5.Consider the following code
+class Coordinate(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def getX(self):
+        # Getter method for a Coordinate object's x coordinate.
+        # Getter methods are better practice than just accessing an attribute directly
+        return self.x
+
+    def getY(self):
+        # Getter method for a Coordinate object's y coordinate
+        return self.y
+
+    def __str__(self):
+        return '<' + str(self.getX()) + ',' + str(self.getY()) + '>'
+Your need to define the following two methods for the Coordinate class:
+
+a) Add an eq method that returns True if coordinates refer to same point in the plane (i.e., have the same x and y coordinate).
+
+b) Define repr, a special method that returns a string that looks like a valid Python expression that could be used to recreate an object with the same value. In other words, eval(repr(c)) == c given the definition of eq from part 1.
+
+
+
+class Coordinate(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        #Use a f-string to format your string representation
+        return f'<{self.x},{self.x}>'
+    def __eq__(self, other):
+        if not isinstance(other, Coordinate):
+               raise TypeError('An instance of class Coordinate is expected')
+        return self.x == other.x and self.y == other.y
+
+
+c1 = Coordinate(5, 5)
+c2 = Coordinate(6, 6)
+
+print(c1)
+print(c2)
+print(c1 == c1)
+print(c1 == c2)
+#print(c1 == 1)
+
+
+6.Develop an abstract class named Temperature that stores a single temperature. The class should have the following function header for special method init,
+def __init__(self, temperature)
+	'''The abstract class should contain the following methods:
+	_str__ — should return a string of the form “75 degrees Fahrenheit”
+	aboveFreezing() — returns True if temperature above the freezing point
+	convertToFahren — returns a new Temperature object converted to degrees Fahrenheit
+	convertToCelsius — returns a new Temperature object converted to degrees Celsius
+	convertToKelvin — returns a new Temperature object converted to degrees Kelvin	
+	'''
+Develop the subclasses Fahrenheit, Celsius and Kelvin to appropriately implement each of the methods in the abstract Temperature class. (Note that when a meaningless conversion method is applied, for example, temp1.convertToFahrenheit() where temp1 is an object of type Fahrenheit, then a copy of the Temperature object should be returned.)
+
+Demonstrate the correctness of your classes by doing the following:
+
+Create a list of Temperature objects of a mix of Temperature types
+
+Print out the value of each temperature in the list, and add “above freezing” if the temperature is above freezing (for the specifi c temperature scale).
+
+Create a new list of temperatures containing each temperature of the original list converted to a common temperature scale (Fahrenheit, Celsius, or Kelvin).
+
+For each temperature object in the new list, print out its temperature value, and if it is above the freezing point.
+
+
+
+
+from abc import ABC,abstractmethod
+import math
+class Temperature(ABC):
+    @abstractmethod
+    def __init__(self,temperature):
+        pass
+    @abstractmethod
+    def __str__(self):
+        pass
+    @abstractmethod
+    def aboveFreeing(self):
+        pass
+    @abstractmethod
+    def convertToFahren(self):
+        pass
+    @abstractmethod
+    def convertToCelsius(self):
+        pass
+    @abstractmethod
+    def convertToKelvin(self):
+        pass
+class Fahrenheit(Temperature):
+    def __init__(self,temperature):
+        self.temperature=temperature
+    def __str__(self):
+        return str(self.temperature)+' degrees Fahrenheit'
+    def aboveFreeing(self):
+        if self.temperature>32:
+            return True
+        else:
+            return False
+    def convertToCelsius(self):
+        self.celcius=(self.temperature-32)*5/9
+        return self.celcius
+    def convertToKelvin(self):
+        self.kelvin=(self.temperature-32)*5/9+273.14
+        return self.kelvin
+    def convertToFahren(self):
+        pass
+class Celsius(Temperature):
+    def __init__(self,temperature):
+        self.temperature=temperature
+    def __str__(self):
+        return str(self.temperature)+' degrees Celcius'
+    def aboveFreeing(self):
+        if self.temperature>0:
+            return True
+        else:
+            return False
+    def convertToFahren(self):
+        self.farenheit=(self.temperature*9/5)+32
+        return self.farenheit
+    def convertToKelvin(self):
+        self.kelvin=self.temperature+273.15
+        return self.kelvin
+    def convertToCelsius(self):
+        pass
+class Kelvin(Temperature):
+    def __init__(self,temperature):
+        self.temperature=temperature
+    def __str__(self):
+        return str(self.temperature)+' degrees Kelvin'
+    def aboveFreeing(self):
+        if self.temperature>273.15:
+            return True
+        else:
+            return False
+    def convertToFahren(self):
+        self.farenheit=(self.temperature-273.15)*9/5+32
+        return math.ceil(self.farenheit)
+    def convertToCelsius(self):
+        self.celcius=(self.temperature-273.15)
+        return math.ceil(self.celcius)
+    def convertToKelvin(self):
+        pass
+temp_farenheit=float(input("Enter the Farenheit Degrees : "))
+temp_celcius=float(input("Enter the Celcius Degrees : "))
+temp_kelvin=float(input("Enter the Kelvin Degrees : "))
+farenheit=Fahrenheit(temp_farenheit)
+celcius=Celsius(temp_celcius)
+kelvin=Kelvin(temp_kelvin)
+print('farenheit string : ',farenheit.__str__())
+print('farenheit above freezing point : ',farenheit.aboveFreeing())
+print('farenheit convert to celcius : ',farenheit.convertToCelsius())
+print('farenheit convert to kelvin : ',farenheit.convertToKelvin())
+print('celcius string : ',celcius.__str__())
+print('celcius above freezing point : ',celcius.aboveFreeing())
+print('celcius convert to farenheit : ',celcius.convertToFahren())
+print('celcius convert to kelvin : ',celcius.convertToKelvin())
+print('kelvin string : ',kelvin.__str__())
+print('kelvin above freezing point : ',kelvin.aboveFreeing())
+print('kelvin convert to farenheit : ',float(kelvin.convertToFahren()))
+print('kelvin convert to celcius : ',float(kelvin.convertToCelsius()))
